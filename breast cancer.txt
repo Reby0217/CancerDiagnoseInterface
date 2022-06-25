@@ -1,0 +1,10 @@
+Breast cancer is cancer that develops from breast tissue.
+Signs of breast cancer may include a lump in the breast, a change in breast shape, dimpling of the skin,
+fluid coming from the nipple, a newly inverted nipple, or a red or scaly patch of skin.
+In those with distant spread of the disease, there may be bone pain, swollen lymph nodes,
+shortness of breath, or yellow skin.
+
+There are two groups of tumors: benign tumors and malignant tumors.
+
+Benign breast tumors: adenosis (A), fibroadenoma (F), phyllodes tumor (PT), and tubular adenona (TA);
+Malignant tumors (breast cancer): carcinoma (DC), lobular carcinoma (LC), mucinous carcinoma (MC) and papillary carcinoma (PC).

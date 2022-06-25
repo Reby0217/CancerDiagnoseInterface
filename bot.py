@@ -7,7 +7,7 @@ import string  # to process standard python strings
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-f = open('skin cancer.txt', 'r', errors='ignore')
+f = open('breast cancer.txt', 'r', errors='ignore')
 raw = f.read()
 raw = raw.lower()  # converts to lowercase
 
