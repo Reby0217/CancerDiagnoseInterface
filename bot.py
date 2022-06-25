@@ -7,7 +7,7 @@ import string  # to process standard python strings
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-f = open('breast cancer.txt', 'r', errors='ignore')
+f = open('skin cancer.txt', 'r', errors='ignore')
 raw = f.read()
 raw = raw.lower()  # converts to lowercase
 
@@ -31,8 +31,8 @@ def LemNormalize(text):
 
 GREETING_INPUTS = ("hello", "hi", "greetings", "sup", "what's up", "hey", "ai", "next")
 
-GREETING_RESPONSES = ["hi", "hey", "*nods*", "hi there", "hello", "I am glad! You are talking to me",
-                      "You're welcome, this is my job",
+GREETING_RESPONSES = ["Hi", "Hey", "*nods*", "Hi there", "Hello", "I am glad! You are talking to me",
+                      "You're welcome. Just doing my job",
                       "You'd better talk with the doctor and you need further treatment"]
 
 
@@ -125,7 +125,7 @@ def chat(user_response):
             if (r == 'false'):
                 rob_response = "AI Doctor: Sorry, cannot find the picture through your input path. Please try again."
             else:
-                rob_response = "AI Doctor: The diagnosis shows that you are having " + r + '\n' + "DOCTOR STRANGE: " + response(
+                rob_response = "AI Doctor: The diagnosis shows that you are having " + r + '\n' + "AI Doctor: " + response(
                     r)
                 sent_tokens.remove(r)
         else:

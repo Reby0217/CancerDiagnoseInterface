@@ -2,9 +2,10 @@ import time
 import tkinter.messagebox
 
 from tkinter import *
+import tkinter.font as font
 from bot import chat
 
-DIMS = "500x500"
+DIMS = "500x600"
 
 
 class ChatInterface(Frame):
@@ -17,7 +18,7 @@ class ChatInterface(Frame):
         self.tl_bg = "#EEEEEE"
         self.tl_bg2 = "#EEEEEE"
         self.tl_fg = "#000000"
-        self.font = "Verdana 14"
+        self.font = "Verdana 13"
 
         # Menu bar
         menu = Menu(self.master)
@@ -61,10 +62,9 @@ class ChatInterface(Frame):
         self.text_box_scrollbar = Scrollbar(self.text_frame, bd=0)
         self.text_box_scrollbar.pack(fill=Y, side=RIGHT)
 
-
         # Contains messages
         self.text_box = Text(self.text_frame, yscrollcommand=self.text_box_scrollbar.set, state=DISABLED,
-                             bd=1, padx=6, pady=6, spacing3=8, wrap=WORD, bg=None, font="Arial 14", relief=GROOVE,
+                             bd=1, padx=6, pady=6, spacing3=8, wrap=WORD, bg=None, font="Arial 13", relief=GROOVE,
                              width=10, height=1)
         self.text_box.pack(expand=True, fill=BOTH)
         self.text_box_scrollbar.config(command=self.text_box.yview)
@@ -83,9 +83,9 @@ class ChatInterface(Frame):
         self.send_button_frame.pack(fill=BOTH)
 
         # Send button
-        self.send_button = Button(self.send_button_frame, text="Send", width=5, relief=GROOVE, bg='white',
-                                  bd=1, command=lambda: self.send_message_insert(None), activebackground="#FFFFFF",
-                                  activeforeground="#000000")
+        self.send_button = Button(self.send_button_frame, text="Send", width=5, relief=GROOVE, bg='#FFFFFF',
+                                  fg='#160ff2', bd=1, command=lambda: self.send_message_insert(None),
+                                  activebackground="#FFFFFF", activeforeground="#000000")
         self.send_button.pack(side=LEFT, ipady=8)
         self.master.bind("<Return>", self.send_message_insert)
 
@@ -94,7 +94,8 @@ class ChatInterface(Frame):
         # t2.start()
 
         self.text_box.configure(state=NORMAL)
-        self.text_box.insert(END, "AI Doctor: Hi! I am a chatbot to help you diagnose breast cancer. Please send me your microscopic image of breast tumor tissue.\n")
+        self.text_box.insert(END, "AI Doctor: Hi! I am a chatbot to help you diagnose the breast cancer. "
+                                  "Please send me your microscopic image of breast tumor tissue.\n")
         self.text_box.configure(state=DISABLED)
         self.text_box.see(END)
 
@@ -105,7 +106,7 @@ class ChatInterface(Frame):
         except AttributeError:
             pass
 
-        self.sent_label = Label(self.entry_frame, font="Verdana 7", text=date, bg=self.tl_bg2, fg=self.tl_fg)
+        self.sent_label = Label(self.entry_frame, font="Verdana 9", text=date, bg=self.tl_bg2, fg=self.tl_fg)
         self.sent_label.pack(side=LEFT, fill=X, padx=3)
 
     def clear_chat(self):
@@ -145,12 +146,9 @@ class ChatInterface(Frame):
         self.entry_field.delete(0, END)
 
     def font_change_default(self):
-        self.text_box.config(font="Verdana 14")
-        self.entry_field.config(font="Verdana 14")
-        self.font = "Verdana 14"
-        # self.text_box.config(font="Verdana 14")
-        # self.entry_field.config(font="Verdana 14")
-        # self.font = "Verdana 14"
+        self.text_box.config(font="Verdana 13")
+        self.entry_field.config(font="Verdana 13")
+        self.font = "Verdana 13"
 
     def font_change_system(self):
         self.text_box.config(font="System")
@@ -231,7 +229,7 @@ class ChatInterface(Frame):
 root = Tk()
 ob = ChatInterface(root)
 root.geometry(DIMS)
-root.title("Chatbot")
+root.title("Breast Cancer Diagnosis Chatbot")
 
 
 root.mainloop()
