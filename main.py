@@ -1,6 +1,6 @@
 import time
 import tkinter.messagebox
-
+from tkinter import filedialog
 from tkinter import *
 import tkinter.font as font
 from bot import chat
@@ -64,7 +64,7 @@ class ChatInterface(Frame):
 
         # Contains messages
         self.text_box = Text(self.text_frame, yscrollcommand=self.text_box_scrollbar.set, state=DISABLED,
-                             bd=1, padx=6, pady=6, spacing3=8, wrap=WORD, bg=None, font="Arial 13", relief=GROOVE,
+                             bd=1, padx=6, pady=6, spacing3=8, wrap=WORD, bg=None, font="Arial 14", relief=GROOVE,
                              width=10, height=1)
         self.text_box.pack(expand=True, fill=BOTH)
         self.text_box_scrollbar.config(command=self.text_box.yview)
@@ -83,15 +83,20 @@ class ChatInterface(Frame):
         self.send_button_frame.pack(fill=BOTH)
 
         # Send button
-        self.send_button = Button(self.send_button_frame, text="Send", width=5, relief=GROOVE, bg='#FFFFFF',
-                                  fg='#160ff2', bd=1, command=lambda: self.send_message_insert(None),
+        self.send_button = Button(self.send_button_frame, text="Send", relief=GROOVE, bg='#FFFFFF',
+                                  fg='#000000', bd=1, command=lambda: self.send_message_insert(None),
                                   activebackground="#FFFFFF", activeforeground="#000000")
-        self.send_button.pack(side=LEFT, ipady=8)
+        self.send_button.pack()
         self.master.bind("<Return>", self.send_message_insert)
 
         self.last_sent_label(date="No messages sent.")
         # t2 = threading.Thread(target=self.send_message_insert(, name='t1')
         # t2.start()
+
+        # Upload button
+        self.upload_button = Button(root, text='Upload', command=self.upload_action)
+        self.upload_button.pack()
+
 
         self.text_box.configure(state=NORMAL)
         self.text_box.insert(END, "AI Doctor: Hi! I am a chatbot to help you diagnose the breast cancer. "
@@ -224,6 +229,11 @@ class ChatInterface(Frame):
     def default_format(self):
         self.font_change_default()
         self.color_theme_default()
+
+    def upload_action(self):
+        filename = filedialog.askopenfilename()
+        print('Selected:', filename)
+        self.entry_field.insert(0, filename)
 
 
 root = Tk()
