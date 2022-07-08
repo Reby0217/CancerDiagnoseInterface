@@ -1,3 +1,5 @@
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 import nltk
 nltk.download('punkt')
 nltk.download('wordnet')
@@ -6,8 +8,9 @@ import numpy as np
 import string  # to process standard python strings
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from trained import *
 
-f = open('skin cancer.txt', 'r', errors='ignore')
+f = open('breast cancer.txt', 'r', errors='ignore')
 raw = f.read()
 raw = raw.lower()  # converts to lowercase
 
@@ -54,7 +57,7 @@ def response(user_response):
     flat.sort()
     req_tfidf = flat[-2]
     if (req_tfidf == 0):
-        robo_response = robo_response + "I am sorry! I don't understand you"
+        robo_response = robo_response #+ "I am sorry! I don't understand you"
         return robo_response
     else:
         robo_response = robo_response + sent_tokens[idx]
@@ -64,36 +67,43 @@ def response(user_response):
 # cnn part
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 from tensorflow.keras import models
 from tensorflow.keras.preprocessing import image
+import matplotlib.image as mpimg
+from skimage.transform import resize
 from PIL import Image, UnidentifiedImageError
 
-# load the model
-loaded_model = models.load_model('728cnn.h5')
-
+models = [vgg16_model, vgg19_model, xception_model, resnet50_model, inception_model, inception_resnet_model]
+model = models[5]
+loaded_model = model(load_weights=True)
+loaded_model.load_weights('inception_resnet_model_weight_1.h5')
 
 def get_class(str):
+    '''
     try:
         test_image = Image.open(str)
         Image.open
     except BaseException:
         return 'false'
     else:
-        test_image = test_image.resize((28, 28))
-        test_image = image.img_to_array(test_image)
-        test_image = test_image.reshape(-1, 28, 28, 3)
-        test_image = test_image / 255
-        # predict the result
-        result = loaded_model.predict(test_image)
-        # cancer classes
-        classes = {4: ('nv', 'melanocytic nevi'),
-                   6: ('mel', 'melanoma'),
-                   2: ('bkl', 'benign keratosis-like lesions'),
-                   1: ('bcc', 'basal cell carcinoma'),
-                   5: ('vasc', 'pyogenic granulomas and hemorrhage'),
-                   0: ('akiec', 'Actinic keratoses and intraepithelial carcinomae'),
-                   3: ('df', 'dermatofibroma')}
-        return classes.get(np.argmax(result))[1]
+    '''
+    test_image = mpimg.imread(str)
+    image_resize = resize(test_image, (115, 175), mode='constant')
+    #tf.expand_dims(image_resize, 0)
+    # predict the result
+    image_resize = np.array([image_resize.reshape(115, 175, 3)])
+    result = loaded_model.predict(image_resize)
+    # cancer classes
+    classes = {0: ('ba','benign_adenosis'),
+               1: ('bf','benign_fibroadenoma'),
+               2: ('bpt','benign_phyllodes_tumor'),
+               3: ('bta','benign_tubular_adenoma'),
+               4: ('mdc','malignant_ductal_carcinoma'),
+               5: ('mlc','malignant_lobular_carcinoma'),
+               6: ('mmc','malignant_mucinous_carcinoma'),
+               7: ('mpc','malignant_papillary_carcinoma')}
+    return classes.get(np.argmax(result))[1]
 
 
 def is_path(str):
@@ -105,7 +115,6 @@ def is_path(str):
         return str
     else:
         return -1
-    # /Users/yuxizheng/xizheng/proj_past_7007/Week_5/test_pics_with_label/ISIC_0034299_bcc_1.jpg
 
 
 def chat(user_response):
