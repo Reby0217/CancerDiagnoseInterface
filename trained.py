@@ -25,8 +25,8 @@ from tensorflow.keras.optimizers import Adam
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 magnification_list = ['40X', '100X', '200X', '400X']
-benign_list = ['adenosis', 'fibroadenoma']
-malignant_list = ['ductal_carcinoma', 'lobular_carcinoma']
+benign_list = ['adenosis', 'fibroadenoma', 'phyllodes_tumor', 'tubular_adenoma']
+malignant_list = ['ductal_carcinoma', 'lobular_carcinoma', 'mucinous_carcinoma', 'papillary_carcinoma']
 cancer_list = benign_list + malignant_list
 
 
@@ -122,8 +122,6 @@ def data_split(magnification='40X', validation_percent=0.15, testing_percent=0.1
 num_classes = 8
 dropout = 0.35
 
-image_height = 115
-image_width = 175
 
 def xception_model(load_weights=True):
     base_model = Xception(include_top=False, weights='imagenet', input_tensor=None,
